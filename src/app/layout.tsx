@@ -82,7 +82,7 @@ export default function RootLayout({
         <Script src="/assets/js/jquery-ui.js"></Script>
         <Script src="/assets/js/gmap3.min.js"></Script>
         <Script src="/assets/js/switch.js"></Script>
-        <Script src="/assets/js/Script.js" defer></Script>
+        <Script src="/assets/js/script.js" defer></Script>
       </body>
     </html>
   );
