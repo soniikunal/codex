@@ -14,20 +14,58 @@ import OrderSummary from "./components/OrderSummary";
 import Breadcrumb from "./components/Breadcrumb";
 import axiosInstance from "@/lib/axios";
 import { useRouter } from "next/navigation";
-
+import {
+  familySchema,
+  studentSchema,
+  enrollmentSchema,
+} from "@/lib/validationSchemas";
+import { ZodError } from "zod";
 const stripePromise = loadStripe(
   "pk_test_51PiTE3DyOlvchsV4d0obJwhA5ltpajCzS65cckJhn5dHUhuCd4Q72rBrP68nLzv52IG3OewQYpiHRMT4fvhp7mlC00iGxKwdJw"
 );
+type MembershipDetail = {
+  _id: string;
+  billingPeriodMonth: string;
+  cost: string;
+  name: string;
+  numberOfDaysInWeek: string;
+  stripePriceId: string;
+  type: string;
+  unit: string;
+};
 
+interface FormErrors {
+  // Family Info Fields
+  name?: string;
+  email?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zip?: string;
+
+  // Student Info Fields
+  firstName?: string;
+  lastName?: string;
+  dob?: string;
+
+  // General Fields
+  selectedMembership?: string;
+  requiredPolicies?: string;
+
+  // Optional: Any other dynamic errors you may want to allow
+  [key: string]: string | undefined;
+}
 function EnrollmentForm() {
   const router = useRouter();
   const stripe = useStripe();
   const elements = useElements();
 
+  const [formErrors, setFormErrors] = useState<FormErrors>({});
   const [course, setCourse] = useState<any>(null);
   const [membershipOptions, setMembershipOptions] = useState<any[]>([]);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [selectedMembership, setSelectedMembership] = useState<any>({});
+  const [selectedMembership, setSelectedMembership] =
+    useState<MembershipDetail>();
   const [scheduleUpdated, setScheduleUpdated] = useState<any[]>([]);
   const [policies, setPolicies] = useState<any[]>([]);
   const [requiredPolicies, setRequiredPolicies] = useState(false);
@@ -71,9 +109,7 @@ function EnrollmentForm() {
           }
         });
         setScheduleUpdated(updatedSchedule);
-
-        const membershipRes = await axiosInstance.get("/membership");
-        setMembershipOptions(membershipRes.data);
+        setMembershipOptions(courseData.memberships);
 
         setPolicies([
           {
@@ -154,10 +190,10 @@ function EnrollmentForm() {
       !selectedMembership?.cost ||
       selectedMembership?.type?.toLowerCase() === "workshop"
     )
-      return selectedMembership?.cost || 0;
+      return Number(selectedMembership?.cost || 0);
     const daily =
       Number(selectedMembership.cost) /
-      (selectedMembership.billingPeriodMonth * 30);
+      (Number(selectedMembership.billingPeriodMonth) * 30);
     const today = new Date();
     const end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
     const daysLeft = Math.ceil(
@@ -168,6 +204,23 @@ function EnrollmentForm() {
 
   const handleSubmit = async () => {
     debugger;
+    try {
+      setFormErrors({});
+      enrollmentSchema.parse({ selectedMembership, requiredPolicies });
+      familySchema.parse(familyInfo);
+      studentSchema.parse(studentInfo);
+    } catch (err) {
+      debugger;
+      if (err instanceof ZodError) {
+        const errorMap: Record<string, string> = {};
+        err.issues.forEach((issue) => {
+          const key = issue.path.join("."); // e.g., "email"
+          errorMap[key] = issue.message;
+        });
+        setFormErrors(errorMap);
+        return;
+      }
+    }
     if (!stripe || !elements || !requiredPolicies || !selectedMembership)
       return;
 
@@ -219,6 +272,7 @@ function EnrollmentForm() {
           />
           {selectedMembership?.cost && (
             <ScheduleSelector
+              membershipDetail={selectedMembership}
               schedule={scheduleUpdated}
               onToggle={handleScheduleToggle}
             />
@@ -226,6 +280,7 @@ function EnrollmentForm() {
           <PolicyAccordion
             policies={policies}
             toggleDetail={handlePolicyToggle}
+            errors={formErrors}
             RequiredPolicies={{
               value: requiredPolicies,
               setValue: setRequiredPolicies,

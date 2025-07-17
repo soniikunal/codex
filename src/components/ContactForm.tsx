@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import axios from "@/lib/axios";
-import ReCAPTCHA from "react-google-recaptcha";
+// import ReCAPTCHA from "react-google-recaptcha";
 
 interface FormData {
   name: string;
@@ -27,7 +27,7 @@ const ContactForm: React.FC = () => {
   const [processing, setProcessing] = useState(false);
 
   const siteKey = "6LfEb3UbAAAAALDm4xKAJH55nA0fx7QxKqFFM2hW";
-  const recaptchaRef = useRef<ReCAPTCHA | null>(null);
+  // const recaptchaRef = useRef<ReCAPTCHA | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -52,12 +52,12 @@ const ContactForm: React.FC = () => {
     setCaptchaError(false);
     setSuccess(false);
 
-    const recaptchaToken = await recaptchaRef.current?.getValue();
+    // const recaptchaToken = await recaptchaRef.current?.getValue();
 
-    if (!recaptchaToken) {
-      setCaptchaError(true);
-      return;
-    }
+    // if (!recaptchaToken) {
+    //   setCaptchaError(true);
+    //   return;
+    // }
 
     if (!validateFields()) {
       setError(true);
@@ -71,7 +71,7 @@ const ContactForm: React.FC = () => {
 
       setSuccess(true);
       setFormData({ name: "", phone: "", email: "", course: "", message: "" });
-      recaptchaRef.current?.reset();
+      // recaptchaRef.current?.reset();
     } catch (err) {
       console.error("Submission error", err);
       setError(true);
@@ -138,7 +138,7 @@ const ContactForm: React.FC = () => {
           </div>
 
           <div className="nws-button text-uppercase text-center white text-capitalize mt-2">
-            <ReCAPTCHA sitekey={siteKey} ref={recaptchaRef} />
+            {/* <ReCAPTCHA sitekey={siteKey} ref={recaptchaRef} /> */}
 
             <button
               type="button"

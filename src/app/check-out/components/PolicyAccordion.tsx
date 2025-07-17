@@ -3,10 +3,12 @@
 export default function PolicyAccordion({
   policies,
   toggleDetail,
+  errors,
   RequiredPolicies,
 }: {
   policies: any[];
   toggleDetail: (index: number) => void;
+  errors: { requiredPolicies?: string };
   RequiredPolicies: {
     value: boolean;
     setValue: (val: boolean) => void;
@@ -32,6 +34,9 @@ export default function PolicyAccordion({
             onChange={(e) => RequiredPolicies.setValue(e.target.checked)}
           />
         </h2>
+        {errors?.requiredPolicies && (
+          <small className="text-danger text-sm">{errors.requiredPolicies}</small>
+        )}
       </div>
 
       <div className="course-list-view table-responsive">

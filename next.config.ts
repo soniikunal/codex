@@ -1,8 +1,16 @@
 const nextConfig = {
   images: {
-    domains: [
-      "codex-new.s3.amazonaws.com",
-      "admin-backend-upload.s3.us-east-2.amazonaws.com",
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "codex-new.s3.amazonaws.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "admin-backend-upload.s3.us-east-2.amazonaws.com",
+        pathname: "/**",
+      },
     ],
   },
   async headers() {

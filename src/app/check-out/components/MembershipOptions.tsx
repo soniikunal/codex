@@ -42,14 +42,10 @@ export default function MembershipOptions({
                   <div className="course-list-img-text">
                     <div className="course-list-text">
                       <h3>
-                        <a href="#">
-                          {item.name}
-                          {item.type.toLowerCase() === "workshop" && (
-                            <span className="ml-2 membershipType">
-                              Workshop
-                            </span>
-                          )}
-                        </a>
+                        {item.name}
+                        {item.type.toLowerCase() === "workshop" && (
+                          <span className="ml-2 membershipType">Workshop</span>
+                        )}
                       </h3>
                     </div>
                   </div>
