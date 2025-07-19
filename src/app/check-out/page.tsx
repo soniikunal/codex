@@ -52,6 +52,7 @@ interface FormErrors {
   selectedMembership?: string;
   requiredPolicies?: string;
 
+  schedule?: string;
   // Optional: Any other dynamic errors you may want to allow
   [key: string]: string | undefined;
 }
@@ -207,10 +208,33 @@ function EnrollmentForm() {
     try {
       setFormErrors({});
       enrollmentSchema.parse({ selectedMembership, requiredPolicies });
+      // Validate schedule selection
+      if (selectedMembership) {
+        const maxSelectable = parseInt(
+          selectedMembership.numberOfDaysInWeek || "0"
+        );
+        const selectedCount = scheduleUpdated.filter(
+          (item) => item.selected
+        ).length;
+
+        if (selectedCount < maxSelectable) {
+          setFormErrors((prev) => ({
+            ...prev,
+            schedule: `Please select exactly ${maxSelectable} schedule${
+              maxSelectable > 1 ? "s" : ""
+            }.`,
+          }));
+          return;
+        }
+      }
+
       familySchema.parse(familyInfo);
       studentSchema.parse(studentInfo);
     } catch (err) {
-      debugger;
+      if (typeof window !== "undefined") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
       if (err instanceof ZodError) {
         const errorMap: Record<string, string> = {};
         err.issues.forEach((issue) => {
@@ -269,14 +293,17 @@ function EnrollmentForm() {
             options={membershipOptions}
             selectedIndex={selectedIndex}
             onSelect={handleMembershipSelect}
+            errors={formErrors}
           />
           {selectedMembership?.cost && (
             <ScheduleSelector
               membershipDetail={selectedMembership}
               schedule={scheduleUpdated}
               onToggle={handleScheduleToggle}
+              errors={formErrors}
             />
           )}
+
           <PolicyAccordion
             policies={policies}
             toggleDetail={handlePolicyToggle}
@@ -289,12 +316,17 @@ function EnrollmentForm() {
 
           <div className="row">
             <div className="col-md-6">
-              <FamilyForm familyInfo={familyInfo} onChange={updateFamilyInfo} />
+              <FamilyForm
+                familyInfo={familyInfo}
+                onChange={updateFamilyInfo}
+                errors={formErrors}
+              />
             </div>
             <div className="col-md-6">
               <StudentForm
                 studentInfo={studentInfo}
                 onChange={updateStudentInfo}
+                errors={formErrors}
               />
             </div>
           </div>

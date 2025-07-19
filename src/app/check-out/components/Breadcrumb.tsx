@@ -16,13 +16,11 @@ const getQueryParams = () => {
 };
 
 export default function Breadcrumb() {
-  const [prog, setProg] = useState("");
   const [course, setCourse] = useState("");
   const [programUrl, setProgramUrl] = useState("");
 
   useEffect(() => {
     const { prog, course } = getQueryParams();
-    setProg(prog);
     setCourse(course);
 
     let url = "";
@@ -62,7 +60,9 @@ export default function Breadcrumb() {
                 <Link href={`/course${programUrl}`}>Course list</Link>
               </li>
               <li className="breadcrumb-item">
-                <Link href={`/course${programUrl}/${course}`}>Course details</Link>
+                <Link href={`/course${programUrl}/${course}`}>
+                  Course details
+                </Link>
               </li>
               <li className="breadcrumb-item active">
                 <a href="#">Course enrolment</a>

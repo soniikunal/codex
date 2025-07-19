@@ -3,9 +3,25 @@
 export default function FamilyForm({
   familyInfo,
   onChange,
+  errors,
 }: {
-  familyInfo: any;
+  familyInfo: {
+    name?: string;
+    address?: string;
+    zip?: string;
+    state?: string;
+    email?: string;
+    city?: string;
+  };
   onChange: (field: string, value: string) => void;
+  errors: {
+    name?: string;
+    address?: string;
+    zip?: string;
+    state?: string;
+    email?: string;
+    city?: string;
+  };
 }) {
   return (
     <div className="order-payment">
@@ -26,6 +42,9 @@ export default function FamilyForm({
             value={familyInfo.name}
             onChange={(e) => onChange("name", e.target.value)}
           />
+          {errors?.name && (
+            <small className="text-danger text-sm">{errors.name}</small>
+          )}
         </div>
         <div className="payment-info">
           <label htmlFor="family-email">
@@ -37,7 +56,10 @@ export default function FamilyForm({
             className="form-control"
             value={familyInfo.email}
             onChange={(e) => onChange("email", e.target.value)}
-          />
+          />{" "}
+          {errors?.email && (
+            <small className="text-danger text-sm">{errors.email}</small>
+          )}
         </div>
         <div className="payment-info">
           <label htmlFor="family-address">
@@ -49,7 +71,10 @@ export default function FamilyForm({
             className="form-control"
             value={familyInfo.address}
             onChange={(e) => onChange("address", e.target.value)}
-          />
+          />{" "}
+          {errors?.address && (
+            <small className="text-danger text-sm">{errors.address}</small>
+          )}
         </div>
         <div className="payment-info">
           <label htmlFor="family-city">
@@ -61,7 +86,10 @@ export default function FamilyForm({
             className="form-control"
             value={familyInfo.city}
             onChange={(e) => onChange("city", e.target.value)}
-          />
+          />{" "}
+          {errors?.city && (
+            <small className="text-danger text-sm">{errors.city}</small>
+          )}
         </div>
         <div className="payment-info">
           <label htmlFor="family-state">
@@ -73,7 +101,10 @@ export default function FamilyForm({
             className="form-control"
             value={familyInfo.state}
             onChange={(e) => onChange("state", e.target.value)}
-          />
+          />{" "}
+          {errors?.state && (
+            <small className="text-danger text-sm">{errors.state}</small>
+          )}
         </div>
         <div className="payment-info">
           <label htmlFor="family-zip">
@@ -85,7 +116,10 @@ export default function FamilyForm({
             className="form-control"
             value={familyInfo.zip}
             onChange={(e) => onChange("zip", e.target.value)}
-          />
+          />{" "}
+          {errors?.zip && (
+            <small className="text-danger text-sm">{errors.zip}</small>
+          )}
         </div>
       </div>
     </div>

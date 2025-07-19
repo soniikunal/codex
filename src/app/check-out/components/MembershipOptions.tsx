@@ -4,10 +4,12 @@ export default function MembershipOptions({
   options,
   selectedIndex,
   onSelect,
+  errors,
 }: {
   options: any[];
   selectedIndex: number | null;
   onSelect: (index: number) => void;
+  errors: { selectedMembership?: string };
 }) {
   return (
     <div className="order-item mb65 course-page-section">
@@ -15,6 +17,11 @@ export default function MembershipOptions({
         <h2>
           Membership <span>Options</span> <span className="required">*</span>
         </h2>
+        {errors?.selectedMembership && (
+          <small className="text-danger text-sm">
+            {errors.selectedMembership}
+          </small>
+        )}
       </div>
       <div className="course-list-view table-responsive">
         <table className="table">

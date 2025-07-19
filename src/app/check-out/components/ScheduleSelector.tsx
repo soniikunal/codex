@@ -13,10 +13,12 @@ export default function ScheduleSelector({
   membershipDetail,
   schedule,
   onToggle,
+  errors,
 }: {
   membershipDetail: MembershipDetail;
   schedule: any[];
   onToggle: (index: number) => void;
+  errors: { schedule?: string };
 }) {
   const maxSelectable = parseInt(membershipDetail.numberOfDaysInWeek || "0");
   const selectedCount = schedule.filter((item) => item.selected).length;
@@ -27,10 +29,14 @@ export default function ScheduleSelector({
         <h2>
           Schedule <span className="required">*</span>
         </h2>
-        <p className="text-sm text-gray-500">
-          Please select exactly {maxSelectable} schedule
-          {maxSelectable > 1 ? "s" : ""}.
-        </p>
+        {errors.schedule ? (
+          <small className="text-danger text-sm">{errors.schedule}</small>
+        ) : (
+          <p className="text-sm text-gray-500">
+            Please select exactly {maxSelectable} schedule
+            {maxSelectable > 1 ? "s" : ""}.
+          </p>
+        )}
       </div>
 
       <div className="course-list-view table-responsive">
