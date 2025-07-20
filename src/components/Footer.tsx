@@ -94,20 +94,6 @@ const Footer: React.FC = () => {
               <div className="col-md-6">
                 <div className="footer_2 backgroud-style">
                   <div className="container">
-                    <div className="back-top text-center mb45">
-                      <a
-                        className="scrollup"
-                        href="#"
-                        style={{ display: "inline-block" }}
-                      >
-                        <Image
-                          src="/assets/img/banner/bt.png"
-                          alt=""
-                          width={65}
-                          height={65}
-                        />
-                      </a>
-                    </div>
                     <div
                       className="footer_2_logo text-center"
                       style={{ display: "inline-block" }}
@@ -120,7 +106,7 @@ const Footer: React.FC = () => {
                       />
                     </div>
 
-                    <div className="footer_2_subs text-center">
+                    <div className="footer_2_subs text-start">
                       <p>
                         We take our mission of increasing global access to
                         quality education seriously.
@@ -164,7 +150,7 @@ const Footer: React.FC = () => {
             <div className="copy-right-menu mt-5">
               <div className="row">
                 <div className="col-md-5">
-                  <div className="copy-right-text">
+                  <div className="copy-right-text text-white">
                     <p>All rights reserved</p>
                   </div>
                 </div>
@@ -173,17 +159,17 @@ const Footer: React.FC = () => {
                     <ul>
                       <li>
                         <a href="#">
-                          <i className="fab fa-facebook-f"></i>
+                          <i className="fab fa-facebook-f text-white"></i>
                         </a>
                       </li>
                       <li>
                         <a href="#">
-                          <i className="fab fa-twitter"></i>
+                          <i className="fab fa-twitter text-white"></i>
                         </a>
                       </li>
                       <li>
                         <a href="#">
-                          <i className="fab fa-google-plus-g"></i>
+                          <i className="fab fa-google-plus-g text-white"></i>
                         </a>
                       </li>
                     </ul>
@@ -193,10 +179,14 @@ const Footer: React.FC = () => {
                   <div className="copy-right-menu-item float-right ul-li">
                     <ul>
                       <li>
-                        <a href="/privacy-policy">Privacy & Policy</a>
+                        <a className="text-white" href="/privacy-policy">
+                          Privacy & Policy
+                        </a>
                       </li>
                       <li>
-                        <a href="/terms-conditions">Terms & Conditions</a>
+                        <a className="text-white" href="/terms-conditions">
+                          Terms & Conditions
+                        </a>
                       </li>
                     </ul>
                   </div>

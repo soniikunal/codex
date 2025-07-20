@@ -7,6 +7,7 @@ import {
   useState,
   ReactNode,
 } from "react";
+import axiosInstance from "./axios";
 
 const LocationContext = createContext<
   | {
@@ -26,9 +27,25 @@ export const LocationProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const stored = localStorage.getItem("location");
-    if (stored) {
-      setLocationState(stored);
-    }
+    if (!stored) return;
+
+    const verifyLocation = async () => {
+      try {
+        const res = await axiosInstance.get(`/locations/${stored}`);
+        if (res.data && res.data._id) {
+          setLocationState(stored);
+        } else {
+          localStorage.removeItem("location");
+          setLocationState(null);
+        }
+      } catch (err) {
+        console.error("Location check failed", err);
+        localStorage.removeItem("location");
+        setLocationState(null);
+      }
+    };
+
+    verifyLocation();
   }, []);
 
   return (

@@ -10,8 +10,8 @@ import "swiper/css/navigation";
 
 interface Teacher {
   name: string;
-  display_line_1: string;
-  display_line_2: string;
+  educationalDetail: string;
+  description: string;
   profile_url: string;
 }
 
@@ -44,20 +44,23 @@ const Teachers: React.FC = () => {
             0: { slidesPerView: 1 },
             400: { slidesPerView: 1 },
             600: { slidesPerView: 2 },
-            1000: { slidesPerView: 4 },
+            1000: { slidesPerView: 3 },
           }}
         >
           {teachers.map((teacher, idx) => (
-            <SwiperSlide key={idx}>
-              <div className="teacher-img-text relative-position text-center">
+            <SwiperSlide key={idx} style={{ height: "auto" }}>
+              <div
+                className="teacher-img-text relative-position text-center"
+                style={{ height: "100%" }}
+              >
                 <div className="teacher-img-social relative-position">
                   <Image
                     src={teacher.profile_url}
                     alt={teacher.name}
-                    width={300}
-                    height={300}
+                    width={250}
+                    height={250}
                     style={{
-                      height: "210px",
+                      // height: "210px",
                       aspectRatio: 1,
                       objectFit: "fill",
                     }}
@@ -86,10 +89,10 @@ const Teachers: React.FC = () => {
                 <div className="teacher-name-designation mt15">
                   <span className="teacher-name">{teacher.name}</span>
                   <span className="teacher-designation teacher-custom">
-                    {teacher.display_line_1}
+                    {teacher.educationalDetail}
                   </span>
                   <span className="teacher-designation teacher-custom">
-                    {teacher.display_line_2}
+                    {teacher.description}
                   </span>
                 </div>
               </div>
