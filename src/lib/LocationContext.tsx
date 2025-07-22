@@ -9,19 +9,24 @@ import {
 } from "react";
 import axiosInstance from "./axios";
 
+type LocationData = {
+  _id: string;
+  shortName: string;
+};
+
 const LocationContext = createContext<
   | {
-      location: string | null;
-      setLocation: (loc: string) => void;
+      location: LocationData | null;
+      setLocation: (loc: LocationData) => void;
     }
   | undefined
 >(undefined);
 
 export const LocationProvider = ({ children }: { children: ReactNode }) => {
-  const [location, setLocationState] = useState<string | null>(null);
+  const [location, setLocationState] = useState<LocationData | null>(null);
 
-  const setLocation = (loc: string) => {
-    localStorage.setItem("location", loc);
+  const setLocation = (loc: LocationData) => {
+    localStorage.setItem("location", JSON.stringify(loc));
     setLocationState(loc);
   };
 
@@ -29,11 +34,13 @@ export const LocationProvider = ({ children }: { children: ReactNode }) => {
     const stored = localStorage.getItem("location");
     if (!stored) return;
 
+    const parsed = JSON.parse(stored) as LocationData;
+
     const verifyLocation = async () => {
       try {
-        const res = await axiosInstance.get(`/locations/${stored}`);
+        const res = await axiosInstance.get(`/locations/${parsed._id}`);
         if (res.data && res.data._id) {
-          setLocationState(stored);
+          setLocationState(parsed);
         } else {
           localStorage.removeItem("location");
           setLocationState(null);

@@ -36,13 +36,14 @@ const CoursePage = () => {
 
     const fetchCourses = async () => {
       try {
-        const location =
+        const locationData =
           typeof window !== "undefined"
-            ? localStorage.getItem("location")
+            ? JSON.parse(localStorage.getItem("location") || "null")
             : null;
+
         const res = await axiosInstance.post("/program/detail", {
           pk: program.code,
-          location,
+          locationId: locationData?._id,
         });
 
         setCourses(res.data || []);

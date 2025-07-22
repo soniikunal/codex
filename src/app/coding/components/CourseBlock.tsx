@@ -6,7 +6,7 @@ interface CourseBlockProps {
   title: string;
   description: string;
   btnText: string;
-  location: string;
+  location: any;
   animationDairection: string;
 }
 
@@ -22,7 +22,8 @@ const CourseBlock: React.FC<CourseBlockProps> = ({
     className={
       "cc-block" +
       (animationDairection == "fade-left" ? " cc-block02" : " cc-block01")
-    }>
+    }
+  >
     <div className="container">
       <div className="category-item">
         <div className="row align-items-center">
@@ -35,7 +36,8 @@ const CourseBlock: React.FC<CourseBlockProps> = ({
             className="col-md-6"
             data-aos={
               animationDairection == "fade-right" ? "fade-left" : "fade-right"
-            }>
+            }
+          >
             <div className="ci-content">
               <h2>{title}</h2>
               <p dangerouslySetInnerHTML={{ __html: description }} />

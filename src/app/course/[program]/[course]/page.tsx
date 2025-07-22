@@ -22,9 +22,8 @@ const CourseDetailPage = () => {
 
   const program = params?.program as string | undefined;
   const course = params?.course as string | undefined;
-
   const [courseData, setCourseData] = useState<Course | null>(null);
-  const [location, setLocation] = useState<string>("");
+  const [location, setLocation] = useState<any>(null); // use null as default
   const programMap: Record<string, string> = {
     coding: "PROG_CODING",
     science: "PROG_SCIENCE",
@@ -38,7 +37,15 @@ const CourseDetailPage = () => {
         router.push("/selectLocation");
         return;
       }
-      setLocation(loc);
+
+      try {
+        const parsed = JSON.parse(loc);
+        setLocation(parsed);
+      } catch (e) {
+        console.error("Invalid location in localStorage:", e);
+        localStorage.removeItem("location");
+        router.push("/selectLocation");
+      }
     }
 
     if (!program || !course) return;
@@ -190,7 +197,7 @@ const CourseDetailPage = () => {
                 <div className="couse-feature ul-li-block">
                   <ul>
                     <li>
-                      Location: <span>{location}</span>
+                      Location: <span>{location?.fullName}</span>
                     </li>
                     <li>
                       Age: <span>{courseData.ageRange || "-"}</span>

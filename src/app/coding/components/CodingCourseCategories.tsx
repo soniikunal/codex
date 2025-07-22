@@ -8,17 +8,27 @@ const CodingCourseCategories = () => {
 
   useEffect(() => {
     const storedLocation = localStorage.getItem("location");
-    if (storedLocation) setLocation(storedLocation);
+    if (storedLocation) {
+      try {
+        const parsed = JSON.parse(storedLocation);
+        setLocation(parsed);
+      } catch (err) {
+        console.error("Invalid JSON in localStorage for 'location'", err);
+        localStorage.removeItem("location");
+      }
+    }
   }, []);
 
   return (
     <section
       id="course-category"
-      className="course-category-section coding-cc-sec jarallax">
+      className="course-category-section coding-cc-sec jarallax"
+    >
       <div className="container">
         <div
           className="section-title mb45 headline text-center"
-          data-aos="zoom-in">
+          data-aos="zoom-in"
+        >
           <span className="subtitle text-uppercase">COURSES CATEGORIES</span>
           <h2>
             Coding and Robotics Courses<span> For K-12</span>

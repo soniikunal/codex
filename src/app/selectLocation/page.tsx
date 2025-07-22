@@ -32,13 +32,13 @@ const SelectLocationSection = () => {
     }
   }, []);
 
-  const handleSelect = (shortName: string) => {
-    if (location === shortName) return;
-    setLocation(shortName);
+  const handleSelect = (loc: any) => {
+    if (location?._id === loc._id) return;
+    setLocation(loc);
     router.push("/");
   };
 
-  const isSelected = (shortName: string) => location === shortName;
+  const isSelected = (shortName: string) => location?._id === shortName;
 
   return (
     <section id="latest-area" className="latest-area-section">
@@ -76,15 +76,11 @@ const SelectLocationSection = () => {
                     >
                       <button
                         className={`btn btn-sm ${
-                          isSelected(loc.shortName)
-                            ? "btn-danger"
-                            : "btn-success"
+                          isSelected(loc._id) ? "btn-danger" : "btn-success"
                         }`}
-                        onClick={() => handleSelect(loc.shortName)}
+                        onClick={() => handleSelect(loc)}
                       >
-                        {isSelected(loc.shortName)
-                          ? "Selected"
-                          : "Use Location"}
+                        {isSelected(loc._id) ? "Selected" : "Use Location"}
                       </button>
                     </div>
                   </div>

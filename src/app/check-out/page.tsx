@@ -112,42 +112,7 @@ function EnrollmentForm() {
         setScheduleUpdated(updatedSchedule);
         setMembershipOptions(courseData.memberships);
 
-        setPolicies([
-          {
-            name: "Contract",
-            detail: `This registration is a legal contract. The contract will be between you and us. In this contract, "we" (using the first person) or "C0deEX" (using the third person) means the particular legal entity that owns and operates the "C0deEX" location at which you are registering for the coding and robotics sessions..`,
-          },
-          {
-            name: "Payments & Fees",
-            detail:
-              "1. All summer sessions are paid in full at time of registration. <br>2. Recurring monthly membership is paid 1 month in advance and the first month payment is paid at time of registration. <br>3. By signing this waiver you authorize C0deEX to charge your credit/debit card at the time of registration. We accept Cash, Check, Visa, MasterCard, Amex, Discover. <br>4. Prices are subject to change. Registration is accepted on a space available basis. <br>5. Late fees will be applied to payments not received on the day payment is due. A $10 late fee will be applied if payment not received by the 5th Monday of Session. A $25 late fee will be applied if payment not received by the 7th Monday of Session.",
-          },
-          {
-            name: "Cancellation Policies",
-            detail:
-              "All cancellations need to be notified by email. If you cancel your enrollment after 5th of a month, you will be charged for that month.",
-          },
-          {
-            name: "Missed Lessons",
-            detail:
-              "1. For missed sessions you might be offered an alternate class depending on class availability which will be at the discretion of the center manager. <br>2. No Adjustment will be made to membership fee for any missed lesson.",
-          },
-          {
-            name: "Confidentiality",
-            detail:
-              "1. Parents/Guardians are kindly asked to wait in the lobby and not disrupt any sessions in progress. <br>2. Questions/concerns should be directed to the center director in person or via. email. We will be happy to set up an appointment to discuss any concerns you may have. <br>3. Instructors may provide feedback and can discuss concerns with the center director who will reach out to parents as needed. <br>4. If you would like to set up a meeting to discuss your child's progress, send us an email and will set up an appointment.",
-          },
-          {
-            name: "Student Drop-off Pick-up",
-            detail:
-              "1. Students of elementary schools age must be walked into the center and picked up inside the center. If, for any age, you do not give consent for your child to leave the center unescorted, you must inform your child to wait in the lobby. Children must not go out through the main door to wait or play in the parking lot until you or your appropriate guardian comes in to pick them up. <br>2. Instructors may ask students to wait in the lobby for pickup. Students will also be allowed to take a bathroom break or get water unattended. If you know that there is a chance your child might leave by the main door, you must stay in the lobby during the time your child is attending the session.",
-          },
-          {
-            name: "Snow Day/Weather-Related Closings",
-            detail:
-              "If the local school district for your C0deEX center is closed due to snow or other inclement weather conditions that make travel unsafe, C0deEX will also be closed. For Weekends, the decisions to close will be made at least 2 hrs. before the center is due to open. Closings will be posted on our FB page and an email will be sent to all scheduled families. In the event of such closings, we will work with you to arrange a makeup session at your earliest convenience.",
-          },
-        ]);
+        setPolicies(courseData.policies);
       } catch (err) {
         console.error("Error loading program details or memberships:", err);
       }

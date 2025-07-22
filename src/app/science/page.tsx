@@ -9,7 +9,12 @@ const SciencePage = () => {
   const [hasLocation, setHasLocation] = useState<boolean | null>(null);
 
   useEffect(() => {
-    setHasLocation(!!window.location); // or pull from localStorage
+    try {
+      const stored = JSON.parse(localStorage.getItem("location") || "null");
+      setHasLocation(!!stored?._id);
+    } catch {
+      setHasLocation(false);
+    }
   }, []);
 
   const scienceCarouselConfig = {

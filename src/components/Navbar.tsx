@@ -36,7 +36,7 @@ const Navbar = () => {
                   <li>
                     <Link href="/selectLocation">
                       <i className="fas fa-map-marker-alt"></i>&nbsp;
-                      {location || "Find Location"}
+                      {location?.shortName || "Find Location"}
                     </Link>
                   </li>
                 </ul>

@@ -1,15 +1,21 @@
 "use client";
 
 import CarouselSection from "@/components/CarouselSection";
-import { usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 
 const OwlCarousel = dynamic(() => import("react-owl-carousel"), { ssr: false });
 
 const MathPage = () => {
-  const pathname = usePathname();
-
-
+  const [hasLocation, setHasLocation] = useState<boolean | null>(null);
+  useEffect(() => {
+    try {
+      const stored = JSON.parse(localStorage.getItem("location") || "null");
+      setHasLocation(!!stored?._id);
+    } catch {
+      setHasLocation(false);
+    }
+  }, []);
 
   const mathCarouselConfig = {
     loop: true,
@@ -17,7 +23,7 @@ const MathPage = () => {
     items: 1,
     autoplay: true,
     autoplayTimeout: 3000,
-    dots :false 
+    dots: false,
   };
 
   const mathHeroContent = [
@@ -125,14 +131,15 @@ const MathPage = () => {
                       performance. Our goal? Helping them approach these
                       national competitions with confidence and skill.
                     </p>
-                    
-                    <a
-                      href="/course/math"
-                      className="btn"
-                      v-if="location"
-                    >
-                      Enroll Now
-                    </a>
+                    {!hasLocation ? (
+                      <a href="/selectLocation" className="btn">
+                        Find a Location
+                      </a>
+                    ) : (
+                      <a href="/course/math" className="btn">
+                        Enroll Now
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>
@@ -173,14 +180,15 @@ const MathPage = () => {
                       not just understand math, but enjoy it, setting them up
                       for both academic success and future competitions.
                     </p>
-                    
-                    <a
-                      href="/course/math"
-                      className="btn"
-                      v-if="location"
-                    >
-                      Enroll Now
-                    </a>
+                    {!hasLocation ? (
+                      <a href="/selectLocation" className="btn">
+                        Find a Location
+                      </a>
+                    ) : (
+                      <a href="/course/math" className="btn">
+                        Enroll Now
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>
@@ -219,14 +227,15 @@ const MathPage = () => {
                       unique problem-solving methods, helping them stay sharp,
                       focused, and ready for global competition.
                     </p>
-                    
-                    <a
-                      href="/course/math"
-                      className="btn"
-                      v-if="location"
-                    >
-                      Enroll Now
-                    </a>
+                    {!hasLocation ? (
+                      <a href="/selectLocation" className="btn">
+                        Find a Location
+                      </a>
+                    ) : (
+                      <a href="/course/math" className="btn">
+                        Enroll Now
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>
