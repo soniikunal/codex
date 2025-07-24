@@ -10,29 +10,46 @@ const Footer: React.FC = () => {
   const [subscriptionSuccess, setSubscriptionSuccess] = useState(false);
   const [subscriptionError, setSubscriptionError] = useState(false);
   const [subscriptionProcessing, setSubscriptionProcessing] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const validateEmailFormat = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   const clearMessages = () => {
     setSubscriptionError(false);
     setSubscriptionSuccess(false);
+    setErrorMessage("");
   };
 
   const handleSubmit = async () => {
     clearMessages();
 
-    if (!emailSubscription) {
+    if (!emailSubscription.trim()) {
+      setErrorMessage("Email address is required.");
+      setSubscriptionError(true);
+      return;
+    }
+
+    if (!validateEmailFormat(emailSubscription)) {
+      setErrorMessage("Please enter a valid email address.");
       setSubscriptionError(true);
       return;
     }
 
     setSubscriptionProcessing(true);
+
     const payload = { email: emailSubscription };
     try {
       await axios.post("/subscribe", payload);
-
       setSubscriptionSuccess(true);
       setEmailSubscription("");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Submit error:", error);
+      setErrorMessage(
+        error?.response?.data?.message ||
+          "Something went wrong. Please try again."
+      );
       setSubscriptionError(true);
     } finally {
       setSubscriptionProcessing(false);
@@ -131,13 +148,13 @@ const Footer: React.FC = () => {
                           </button>
                         </div>
                         {subscriptionSuccess && (
-                          <div className="mt-3 alert alert-success">
+                          <div className="mt-2 alert alert-success">
                             <strong>Success!</strong> Subscription completed.
                           </div>
                         )}
                         {subscriptionError && (
-                          <div className="mt-3 alert alert-danger">
-                            <strong>Error!</strong> Please fill all fields.
+                          <div className="mt-2 alert alert-danger">
+                            <strong>Error!</strong> {errorMessage}
                           </div>
                         )}
                       </div>
