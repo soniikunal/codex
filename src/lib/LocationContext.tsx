@@ -34,25 +34,30 @@ export const LocationProvider = ({ children }: { children: ReactNode }) => {
     const stored = localStorage.getItem("location");
     if (!stored) return;
 
-    const parsed = JSON.parse(stored) as LocationData;
+    try {
+      const parsed = JSON.parse(stored) as LocationData;
 
-    const verifyLocation = async () => {
-      try {
-        const res = await axiosInstance.get(`/locations/${parsed._id}`);
-        if (res.data && res.data._id) {
-          setLocationState(parsed);
-        } else {
+      const verifyLocation = async () => {
+        try {
+          const res = await axiosInstance.get(`/locations/${parsed._id}`);
+          if (res.data && res.data._id) {
+            setLocationState(parsed);
+          } else {
+            localStorage.removeItem("location");
+            setLocationState(null);
+          }
+        } catch (err) {
+          console.error("Location check failed", err);
           localStorage.removeItem("location");
           setLocationState(null);
         }
-      } catch (err) {
-        console.error("Location check failed", err);
-        localStorage.removeItem("location");
-        setLocationState(null);
-      }
-    };
+      };
 
-    verifyLocation();
+      verifyLocation();
+    } catch (err) {
+      console.error("Invalid JSON in localStorage for 'location'", err);
+      localStorage.removeItem("location");
+    }
   }, []);
 
   return (

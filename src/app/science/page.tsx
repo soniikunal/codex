@@ -132,7 +132,8 @@ const SciencePage = () => {
                     </p>
                     {!hasLocation ? (
                       <a href="/selectLocation" className="btn">
-                        Find a Location
+                        <i className="fas fa-map-marker-alt"></i>&nbsp;Find a
+                        Location
                       </a>
                     ) : (
                       <a href="/course/science" className="btn">
@@ -180,7 +181,8 @@ const SciencePage = () => {
                     </p>
                     {!hasLocation ? (
                       <a href="/selectLocation" className="btn">
-                        Find a Location
+                        <i className="fas fa-map-marker-alt"></i>&nbsp;Find a
+                        Location
                       </a>
                     ) : (
                       <a href="/course/science" className="btn">
@@ -227,7 +229,8 @@ const SciencePage = () => {
                     </p>
                     {!hasLocation ? (
                       <a href="/selectLocation" className="btn">
-                        Find a Location
+                        <i className="fas fa-map-marker-alt"></i>&nbsp;Find a
+                        Location
                       </a>
                     ) : (
                       <a href="/course/science" className="btn">
@@ -276,7 +279,8 @@ const SciencePage = () => {
                     </p>
                     {!hasLocation ? (
                       <a href="/selectLocation" className="btn">
-                        Find a Location
+                        <i className="fas fa-map-marker-alt"></i>&nbsp;Find a
+                        Location
                       </a>
                     ) : (
                       <a href="/course/science" className="btn">

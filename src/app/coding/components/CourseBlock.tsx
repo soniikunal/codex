@@ -47,7 +47,8 @@ const CourseBlock: React.FC<CourseBlockProps> = ({
                 </Link>
               ) : (
                 <Link href="/selectLocation" className="btn">
-                  Find a Location
+                  <i className="fas fa-map-marker-alt"></i>&nbsp; Find a
+                  Location
                 </Link>
               )}
             </div>

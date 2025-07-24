@@ -133,7 +133,8 @@ const MathPage = () => {
                     </p>
                     {!hasLocation ? (
                       <a href="/selectLocation" className="btn">
-                        Find a Location
+                        <i className="fas fa-map-marker-alt"></i>&nbsp; Find a
+                        Location
                       </a>
                     ) : (
                       <a href="/course/math" className="btn">
@@ -182,7 +183,8 @@ const MathPage = () => {
                     </p>
                     {!hasLocation ? (
                       <a href="/selectLocation" className="btn">
-                        Find a Location
+                        <i className="fas fa-map-marker-alt"></i>&nbsp; Find a
+                        Location
                       </a>
                     ) : (
                       <a href="/course/math" className="btn">
@@ -229,7 +231,8 @@ const MathPage = () => {
                     </p>
                     {!hasLocation ? (
                       <a href="/selectLocation" className="btn">
-                        Find a Location
+                        <i className="fas fa-map-marker-alt"></i>&nbsp; Find a
+                        Location
                       </a>
                     ) : (
                       <a href="/course/math" className="btn">
