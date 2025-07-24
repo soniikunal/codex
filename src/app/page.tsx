@@ -11,7 +11,7 @@ export const metadata = {
     "science workshops",
   ],
 };
-export const homeCarouselBackup = [
+const homeCarouselBackup = [
   {
     heading: "Unlock",
     subheading: "Young Minds Today",
