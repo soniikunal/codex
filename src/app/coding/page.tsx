@@ -32,7 +32,7 @@ const HeroSectionContent: CodingPageHeroSection[] = [
     boldText2: "Digital Reality",
   },
   {
-    boldText1: "Preapre Your Child ",
+    boldText1: "Prepare Your Child ",
     normalText: "for the",
     boldText2: "Digital Future",
   },
