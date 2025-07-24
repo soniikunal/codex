@@ -131,7 +131,7 @@ const HomePage: React.FC<{ carouselData: CarouselItem[] }> = ({
           ))}
         </OwlCarousel>
       </section>
-      {/* 
+
       <section id="best-course" className="best-course-section">
         <div className="container">
           <div
@@ -294,7 +294,7 @@ const HomePage: React.FC<{ carouselData: CarouselItem[] }> = ({
             </div>
           </div>
         </div>
-      </section> */}
+      </section>
     </>
   );
 };
