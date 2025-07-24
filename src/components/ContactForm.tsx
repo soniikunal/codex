@@ -3,6 +3,19 @@
 import { useRef, useState } from "react";
 import axios from "@/lib/axios";
 // import ReCAPTCHA from "react-google-recaptcha";
+import { z } from "zod";
+
+const contactFormSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  phone: z
+    .string()
+    .min(10, "Phone must be at least 10 digits")
+    .max(10, "Phone must be 10 digits")
+    .regex(/^\d+$/, "Phone must contain only digits"),
+  email: z.string().email("Invalid email"),
+  course: z.string().min(1, "Please select a course"),
+  message: z.string().min(1, "Message is required"),
+});
 
 interface FormData {
   name: string;
@@ -22,9 +35,10 @@ const ContactForm: React.FC = () => {
   });
 
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const [captchaError, setCaptchaError] = useState(false);
   const [processing, setProcessing] = useState(false);
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
   const siteKey = "6LfEb3UbAAAAALDm4xKAJH55nA0fx7QxKqFFM2hW";
   // const recaptchaRef = useRef<ReCAPTCHA | null>(null);
@@ -38,19 +52,16 @@ const ContactForm: React.FC = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const validateFields = () => {
-    return (
-      formData.name.trim() &&
-      formData.email.trim() &&
-      formData.message.trim() &&
-      formData.course.trim()
-    );
-  };
-
   const submitForm = async () => {
-    setError(false);
+    setError("");
     setCaptchaError(false);
     setSuccess(false);
+    setFormErrors({});
+
+    // if (!validateFields()) {
+    //   setError("Make sure to complete all the required fields.");
+    //   return;
+    // }
 
     // const recaptchaToken = await recaptchaRef.current?.getValue();
 
@@ -58,9 +69,15 @@ const ContactForm: React.FC = () => {
     //   setCaptchaError(true);
     //   return;
     // }
+    const result = contactFormSchema.safeParse(formData);
 
-    if (!validateFields()) {
-      setError(true);
+    if (!result.success) {
+      const errorMap: Record<string, string> = {};
+      result.error.issues.forEach((issue) => {
+        const field = issue.path[0] as string;
+        errorMap[field] = issue.message;
+      });
+      setFormErrors(errorMap);
       return;
     }
 
@@ -68,13 +85,10 @@ const ContactForm: React.FC = () => {
 
     try {
       await axios.post("/contact", formData);
-
       setSuccess(true);
       setFormData({ name: "", phone: "", email: "", course: "", message: "" });
-      // recaptchaRef.current?.reset();
     } catch (err) {
-      console.error("Submission error", err);
-      setError(true);
+      setError((err as Error).message);
     } finally {
       setProcessing(false);
     }
@@ -89,54 +103,84 @@ const ContactForm: React.FC = () => {
       </div>
       <div className="register-form-area">
         <form className="contact_form" onSubmit={(e) => e.preventDefault()}>
-          <div className="contact-info mb-3">
-            <input
-              name="name"
-              type="text"
-              placeholder="Your Name *"
-              value={formData.name}
-              onChange={handleChange}
-            />
+          <div className="mb-3">
+            <div className="contact-info">
+              <input
+                name="name"
+                type="text"
+                placeholder="Your Name *"
+                value={formData.name}
+                onChange={handleChange}
+              />
+            </div>
+            {formErrors.name && (
+              <div className="text-danger">{formErrors.name}</div>
+            )}
           </div>
-          <div className="contact-info mb-3">
-            <input
-              name="phone"
-              type="phone"
-              placeholder="Your Number"
-              value={formData.phone}
-              onChange={handleChange}
-            />
+          <div className="mb-3">
+            <div className="contact-info">
+              <input
+                name="phone"
+                type="text"
+                inputMode="numeric"
+                maxLength={10}
+                placeholder="Your Number"
+                value={formData.phone}
+                onChange={(e) => {
+                  const onlyDigits = e.target.value.replace(/\D/g, "");
+                  setFormData((prev) => ({ ...prev, phone: onlyDigits }));
+                }}
+              />
+            </div>
+            {formErrors.phone && (
+              <div className="text-danger">{formErrors.phone}</div>
+            )}
           </div>
-          <div className="contact-info mb-3">
-            <input
-              name="email"
-              type="email"
-              placeholder="Email Address *"
-              value={formData.email}
-              onChange={handleChange}
-            />
+          <div className="mb-3">
+            <div className="contact-info">
+              <input
+                name="email"
+                type="email"
+                required
+                placeholder="Email Address *"
+                value={formData.email}
+                onChange={handleChange}
+              />
+            </div>
+            {formErrors.email && (
+              <div className="text-danger">{formErrors.email}</div>
+            )}
           </div>
-          <div className="contact-info mb-3">
-            <select
-              name="course"
-              value={formData.course}
-              onChange={handleChange}
-            >
-              <option value="">Select Course *</option>
-              <option value="Coding">Coding</option>
-              <option value="Science">Science</option>
-              <option value="Competitive Math">Competitive Math</option>
-            </select>
+          <div className="mb-3">
+            <div className="contact-info">
+              <select
+                name="course"
+                value={formData.course}
+                onChange={handleChange}
+              >
+                <option value="">Select Course *</option>
+                <option value="Coding">Coding</option>
+                <option value="Science">Science</option>
+                <option value="Competitive Math">Competitive Math</option>
+              </select>
+            </div>
+            {formErrors.course && (
+              <div className="text-danger">{formErrors.course}</div>
+            )}
           </div>
-          <div className="contact-info mb-3">
-            <textarea
-              name="message"
-              placeholder="Message *"
-              value={formData.message}
-              onChange={handleChange}
-            ></textarea>
+          <div className="mb-3">
+            <div className="contact-info">
+              <textarea
+                name="message"
+                placeholder="Message *"
+                value={formData.message}
+                onChange={handleChange}
+              ></textarea>
+            </div>
+            {formErrors.message && (
+              <div className="text-danger">{formErrors.message}</div>
+            )}
           </div>
-
           <div className="nws-button text-uppercase text-center white text-capitalize mt-2">
             {/* <ReCAPTCHA sitekey={siteKey} ref={recaptchaRef} /> */}
 
@@ -148,7 +192,7 @@ const ContactForm: React.FC = () => {
             >
               {processing ? (
                 <>
-                  Please wait..{" "}
+                  Please wait..
                   <i className="fas fa-spinner fa-spin spinner"></i>
                 </>
               ) : (
@@ -170,7 +214,7 @@ const ContactForm: React.FC = () => {
           <div className="terms-text mt25">
             <div className="mt-3 alert alert-danger">
               <strong>Error!</strong>
-              <div>Make sure to complete all the required fields.</div>
+              <div>{error}</div>
             </div>
           </div>
         )}
