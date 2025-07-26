@@ -119,8 +119,8 @@ const HomePage: React.FC<{ carouselData: CarouselItem[] }> = ({
               key={idx}
               className={`item slider-area relative-position slider-bg-1`}
               style={{
-                backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.4), hwb(0 0% 100% / 0.4)), 
-                url(${item.imageUrl})`,
+                backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0.4), hwb(0 0% 100% / 0.4)),
+                url("${item.imageUrl}")`,
               }}
             >
               <h2 className="newCarouselItem transDown">

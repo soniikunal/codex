@@ -185,7 +185,7 @@
 .exsciton-bg {
   background-image: linear-gradient(
       0deg,
-      rgb(57 36 103 / 80%),
+      rgb(57 36 103 / 14%),
       rgba(0, 0, 0, 0.8)
     ),
     url(../img/banner/exscton-bg.jpg);
@@ -445,7 +445,7 @@
 .mathex-bg {
   background-image: linear-gradient(
       0deg,
-      rgba(67, 118, 108, 0.8),
+      rgb(67 118 108 / 37%),
       rgba(0, 0, 0, 0.8)
     ),
     url(../img/banner/mathex-bg.jpg);

@@ -15,17 +15,17 @@ const homeCarouselBackup = [
   {
     heading: "Unlock",
     subheading: "Young Minds Today",
-    imageUrl: "slider-bg-1",
+    imageUrl: "../assets/img/banner/slider-bg-1.jpg",
   },
   {
     heading: "Build",
     subheading: "Skills for Tomorrow",
-    imageUrl: "slider-bg-2",
+    imageUrl: "./assets/img/banner/slider-bg-2.jpg",
   },
   {
     heading: "Shape",
     subheading: "a Brighter Future",
-    imageUrl: "slider-bg-3",
+    imageUrl: "slider-bg-3.jpg",
   },
 ];
 

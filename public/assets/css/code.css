@@ -1,5 +1,5 @@
 .codeing-bg {
-    background-image: linear-gradient(0deg, rgba(4, 50, 90, 0.9), rgba(0, 0, 0, 0.8)), url(../img/banner/coding-bg.jpg);
+    background-image: linear-gradient(0deg, rgb(4 50 90 / 44%), rgba(0, 0, 0, 0.8)), url(../img/banner/coding-bg.jpg);
     height: 75vh;
 }
 
